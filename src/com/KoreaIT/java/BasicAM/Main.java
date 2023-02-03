@@ -10,7 +10,7 @@ public class Main {
 		System.out.println("==프로그램 시작==");
 
 		Scanner sc = new Scanner(System.in);
-		
+
 		LocalDate now = LocalDate.now();
 
 		int lastArticleId = 0;
@@ -50,11 +50,11 @@ public class Main {
 				}
 			} else if (command.equals("article write")) {
 				int id = lastArticleId + 1;
-				System.out.printf("제목 : "); 
+				System.out.printf("제목 : ");
 				String title = sc.nextLine();
 				System.out.printf("내용 : ");
 				String body = sc.nextLine();
-				
+
 				LocalDate time = now;
 
 				Article article = new Article(id, title, body, time);
@@ -63,19 +63,16 @@ public class Main {
 				System.out.printf("%d번 글이 생성 되었습니다\n", id);
 				lastArticleId++;
 			}
-			
-			else if (command.equals("article detail 1")) {
-				String[] ArrayStr = command.split(" ");
-				
-				if(articles.size()==0) {
-					System.out.println("번 게시글은 존재하지 않습니다.");
-				}
-				Article article = articles.get(0);
-				System.out.println("번호 : "+article.id);
-				System.out.println("날짜 : "+article.time);
-				System.out.println("제목 : "+article.title);
-				System.out.println("내용 : "+article.body);
-				
+
+			else if (command.startsWith("article detail ")) {
+				String[] a = command.split(" ");
+				int num = Integer.parseInt(a[2]);
+				Article article = articles.get(num - 1);
+				System.out.println("번호 : " + article.id);
+				System.out.println("날짜 : " + article.time);
+				System.out.println("제목 : " + article.title);
+				System.out.println("내용 : " + article.body);
+
 			}
 
 			else {
