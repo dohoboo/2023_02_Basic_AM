@@ -3,12 +3,15 @@ package com.KoreaIT.java.BasicAM;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+import java.time.LocalDate;
 
 public class Main {
 	public static void main(String[] args) {
 		System.out.println("==프로그램 시작==");
 
 		Scanner sc = new Scanner(System.in);
+		
+		LocalDate now = LocalDate.now();
 
 		int lastArticleId = 0;
 
@@ -51,12 +54,28 @@ public class Main {
 				String title = sc.nextLine();
 				System.out.printf("내용 : ");
 				String body = sc.nextLine();
+				
+				LocalDate time = now;
 
-				Article article = new Article(id, title, body);
+				Article article = new Article(id, title, body, time);
 				articles.add(article);
 
 				System.out.printf("%d번 글이 생성 되었습니다\n", id);
 				lastArticleId++;
+			}
+			
+			else if (command.equals("article detail 1")) {
+				String[] ArrayStr = command.split(" ");
+				
+				if(articles.size()==0) {
+					System.out.println("번 게시글은 존재하지 않습니다.");
+				}
+				Article article = articles.get(0);
+				System.out.println("번호 : "+article.id);
+				System.out.println("날짜 : "+article.time);
+				System.out.println("제목 : "+article.title);
+				System.out.println("내용 : "+article.body);
+				
 			}
 
 			else {
@@ -75,10 +94,12 @@ class Article {
 	int id;
 	String title;
 	String body;
+	LocalDate time;
 
-	Article(int id, String title, String body) {
+	Article(int id, String title, String body, LocalDate time) {
 		this.id = id;
 		this.title = title;
 		this.body = body;
+		this.time = time;
 	}
 }
