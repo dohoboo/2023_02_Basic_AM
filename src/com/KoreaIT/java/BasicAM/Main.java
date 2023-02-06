@@ -156,6 +156,7 @@ public class Main {
 	}
 
 	static void makeTestData() {
+		System.out.println("테스트를 위한 데이터를 생성합니다.");
 
 		for (int i = 0; i < 3; i++) {
 			int id = lastArticleId + 1;
