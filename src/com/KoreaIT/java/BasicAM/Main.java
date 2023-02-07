@@ -82,8 +82,8 @@ public class Main {
 				}
 				foundArticle.increaseHit();
 				System.out.printf("번호 : %d\n", foundArticle.id);
-				System.out.printf("작성날짜 : %s\n", foundArticle.regDate);
-				System.out.printf("수정날짜 : %s\n", foundArticle.updateDate);
+				System.out.printf("작성일 : %s\n", foundArticle.regDate);
+				System.out.printf("변경일 : %s\n", foundArticle.updateDate);
 				System.out.printf("제목 : %s\n", foundArticle.title);
 				System.out.printf("내용 : %s\n", foundArticle.body);
 				System.out.printf("조회 : %d\n", foundArticle.hit);
@@ -163,8 +163,9 @@ public class Main {
 			String regDate = Util.getNowDateStr();
 			String title = "test title "+(i+1);
 			String body = "test body "+(i+1);
+			int hit = i+1;
 
-			Article article = new Article(id, regDate, regDate, title, body);
+			Article article = new Article(id, regDate, regDate, title, body,hit);
 			articles.add(article);
 
 			System.out.printf("%d번 글이 생성 되었습니다\n", id);
@@ -182,12 +183,16 @@ class Article {
 	int hit;
 
 	Article(int id, String regDate, String updateDate, String title, String body) {
+		this(id, regDate, updateDate, title, body, 0);
+	}
+	
+	Article(int id, String regDate, String updateDate, String title, String body, int hit){
 		this.id = id;
 		this.regDate = regDate;
 		this.updateDate = updateDate;
 		this.title = title;
 		this.body = body;
-		this.hit = 0;
+		this.hit = hit;
 	}
 
 	void increaseHit() {
