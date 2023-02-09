@@ -13,20 +13,21 @@ public class MemberController extends Controller {
 	private Scanner sc;
 	private String command;
 	private String actionMethodName;
+	private Member loginedMember;
 
 	public MemberController(Scanner sc) {
 		this.members = new ArrayList<>();
 		this.sc = sc;
 	}
-	
+
 	public void makeTestMember() {
 		System.out.println("테스트를 위한 회원을 생성합니다.");
 
 		for (int i = 0; i < 3; i++) {
 			int id = i + 1;
 			String regDate = Util.getNowDateStr();
-			String loginId = "test ID " + (i + 1);
-			String loginPw = "test PW " + (i + 1);
+			String loginId = "test" + (i + 1);
+			String loginPw = "test" + (i + 1);
 			String name = "test name " + (i + 1);
 
 			Member member = new Member(id, regDate, regDate, loginId, loginPw, name);
@@ -43,7 +44,49 @@ public class MemberController extends Controller {
 		case "join":
 			doJoin();
 			break;
+			
+		case "login":
+			doLogin();
+			break;
+
+		default:
+			System.out.println("존재하지 않는 명령어입니다.");
+			break;
 		}
+	}
+	
+	private void doLogin() {
+		System.out.printf("로그인 아이디 : ");
+		String loginId = sc.nextLine();
+		System.out.printf("로그인 비밀번호 : ");
+		String loginPw = sc.nextLine();
+
+		Member member = getMemberByLoginId(loginId);
+
+		if (member == null) {
+			System.out.println("해당 회원은 존재하지 않습니다");
+			return;
+		}
+
+		if (member.loginPw.equals(loginPw) == false) {
+			System.out.println("비밀번호를 확인해주세요");
+			return;
+		}
+
+		loginedMember = member;
+		System.out.printf("로그인 성공! %s님 환영합니다.\n", loginedMember.name);
+
+	}
+
+	private Member getMemberByLoginId(String loginId) {
+		
+		int index = getMemberIndexByLoginId(loginId);
+
+		if (index == -1) {
+			return null;
+		}
+
+		return members.get(index);
 	}
 
 	public void doJoin() {
