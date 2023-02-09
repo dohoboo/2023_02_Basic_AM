@@ -1,5 +1,6 @@
 package com.KoreaIT.java.BasicAM.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
@@ -13,8 +14,8 @@ public class ArticleController extends Controller {
 	private String command;
 	private String actionMethodName;
 
-	public ArticleController(List<Article> articles, Scanner sc) {
-		this.articles = articles;
+	public ArticleController(Scanner sc) {
+		this.articles = new ArrayList<>();
 		this.sc = sc;
 	}
 
@@ -43,6 +44,22 @@ public class ArticleController extends Controller {
 			doDelete(command);
 			break;
 		}	
+	}
+	
+	public void makeTestData() {
+		System.out.println("테스트를 위한 데이터를 생성합니다.");
+
+		for (int i = 0; i < 3; i++) {
+			int id = i + 1;
+			String regDate = Util.getNowDateStr();
+			String title = "test title " + (i + 1);
+			String body = "test body " + (i + 1);
+			int hit = i+1;
+
+			Article article = new Article(id, regDate, regDate, title, body, hit);
+			articles.add(article);
+			System.out.printf("%d번 글이 생성 되었습니다\n", id);
+		}
 	}
 
 	public void showList() {

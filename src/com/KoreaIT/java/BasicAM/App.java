@@ -1,35 +1,27 @@
 package com.KoreaIT.java.BasicAM;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Scanner;
 
 import com.KoreaIT.java.BasicAM.controller.ArticleController;
 import com.KoreaIT.java.BasicAM.controller.Controller;
 import com.KoreaIT.java.BasicAM.controller.MemberController;
-import com.KoreaIT.java.BasicAM.dto.Article;
-import com.KoreaIT.java.BasicAM.dto.Member;
-import com.KoreaIT.java.BasicAM.util.Util;
 
 public class App {
-	public static List<Article> articles;
-	public static List<Member> members;
-
-	static {
-		articles = new ArrayList<>();
-		members = new ArrayList<>();
+	
+	App(){
+		
 	}
 
 	public void run() {
 		System.out.println("==프로그램 시작==");
 
-		makeTestData();
-		makeMember();
-
 		Scanner sc = new Scanner(System.in);
 
-		MemberController memberController = new MemberController(members, sc);
-		ArticleController articleController = new ArticleController(articles, sc);
+		MemberController memberController = new MemberController(sc);
+		ArticleController articleController = new ArticleController(sc);
+		
+		articleController.makeTestData();
+		memberController.makeTestMember();
 
 		while (true) {
 			System.out.printf("명령어 ) ");
@@ -72,37 +64,5 @@ public class App {
 
 		sc.close();
 
-	}
-
-	public static void makeTestData() {
-		System.out.println("테스트를 위한 데이터를 생성합니다.");
-
-		for (int i = 0; i < 3; i++) {
-			int id = i + 1;
-			String regDate = Util.getNowDateStr();
-			String title = "test title " + (i + 1);
-			String body = "test body " + (i + 1);
-			int hit = i+1;
-
-			Article article = new Article(id, regDate, regDate, title, body, hit);
-			articles.add(article);
-			System.out.printf("%d번 글이 생성 되었습니다\n", id);
-		}
-	}
-	
-	public static void makeMember() {
-		System.out.println("테스트를 위한 회원을 생성합니다.");
-
-		for (int i = 0; i < 3; i++) {
-			int id = i + 1;
-			String regDate = Util.getNowDateStr();
-			String loginId = "test ID " + (i + 1);
-			String loginPw = "test PW " + (i + 1);
-			String name = "test name " + (i + 1);
-
-			Member member = new Member(id, regDate, regDate, loginId, loginPw, name);
-			members.add(member);
-			System.out.printf("%d번 회원이 가입 되었습니다\n", id);
-		}
-	}
+	}	
 }

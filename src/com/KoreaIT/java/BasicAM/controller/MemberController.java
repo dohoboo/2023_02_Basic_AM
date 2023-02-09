@@ -1,5 +1,6 @@
 package com.KoreaIT.java.BasicAM.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
@@ -13,9 +14,25 @@ public class MemberController extends Controller {
 	private String command;
 	private String actionMethodName;
 
-	public MemberController(List<Member> members, Scanner sc) {
-		this.members = members;
+	public MemberController(Scanner sc) {
+		this.members = new ArrayList<>();
 		this.sc = sc;
+	}
+	
+	public void makeTestMember() {
+		System.out.println("테스트를 위한 회원을 생성합니다.");
+
+		for (int i = 0; i < 3; i++) {
+			int id = i + 1;
+			String regDate = Util.getNowDateStr();
+			String loginId = "test ID " + (i + 1);
+			String loginPw = "test PW " + (i + 1);
+			String name = "test name " + (i + 1);
+
+			Member member = new Member(id, regDate, regDate, loginId, loginPw, name);
+			members.add(member);
+			System.out.printf("%d번 회원이 가입 되었습니다\n", id);
+		}
 	}
 
 	public void doAction(String command, String actionMethodName) {
