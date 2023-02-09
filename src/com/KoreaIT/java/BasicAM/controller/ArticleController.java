@@ -6,18 +6,55 @@ import java.util.Scanner;
 import com.KoreaIT.java.BasicAM.dto.Article;
 import com.KoreaIT.java.BasicAM.util.Util;
 
-public class ArticleController {
+public class ArticleController extends Controller {
 
-	private static List<Article> articles;
+	private List<Article> articles;
 	private Scanner sc;
+	private String command;
+	private String actionMethodName;
 
 	public ArticleController(List<Article> articles, Scanner sc) {
 		this.articles = articles;
 		this.sc = sc;
 	}
 
-	public void bringArticleList() {
+	public void doAction(String command, String actionMethodName) {
+		this.command = command;
+		this.actionMethodName = actionMethodName;
+		
+		switch (actionMethodName) {
+		case "list":
+			showList();
+			break;
+		}
+		
+		switch (actionMethodName) {
+		case "detail":
+			showDetail(command);
+			break;
+		}
+		
+		switch (actionMethodName) {
+		case "write":
+			doWrite();
+			break;
+		}
+		
+		switch (actionMethodName) {
+		case "modify":
+			doModify(command);
+			break;
+		}
+		
+		switch (actionMethodName) {
+		case "delete":
+			doDelete(command);
+			break;
+		}
+		
+	}
 
+	public void showList() {
 		if (articles.size() == 0) {
 			System.out.println("게시글이 없습니다");
 			return;
@@ -34,10 +71,10 @@ public class ArticleController {
 
 			System.out.printf("%4d	/    %6s    /   %4d\n", article.id, article.title, article.hit);
 		}
+
 	}
 
-	public void articleWriting() {
-
+	public void doWrite() {
 		int id = articles.size() + 1;
 		String regDate = Util.getNowDateStr();
 		System.out.printf("제목 : ");
@@ -49,10 +86,10 @@ public class ArticleController {
 		articles.add(article);
 
 		System.out.printf("%d번 글이 생성 되었습니다\n", id);
+
 	}
 
-	public void bringArticleDetail(String command) {
-
+	public void showDetail(String command) {
 		String[] commandBits = command.split(" ");
 
 		int id = Integer.parseInt(commandBits[2]);
@@ -71,10 +108,10 @@ public class ArticleController {
 		System.out.printf("제목 : %s\n", foundArticle.title);
 		System.out.printf("내용 : %s\n", foundArticle.body);
 		System.out.printf("조회 : %d\n", foundArticle.hit);
+
 	}
 
-	public void articleUpdate(String command) {
-
+	public void doModify(String command) {
 		String[] commandBits = command.split(" ");
 
 		int id = Integer.parseInt(commandBits[2]);
@@ -97,9 +134,10 @@ public class ArticleController {
 		foundArticle.updateDate = updateDate;
 
 		System.out.printf("%d번 게시물을 수정했습니다\n", id);
+
 	}
 
-	public void articleDelete(String command) {
+	public void doDelete(String command) {
 		String[] commandBits = command.split(" ");
 
 		int id = Integer.parseInt(commandBits[2]);
@@ -112,6 +150,7 @@ public class ArticleController {
 		}
 		articles.remove(foundIndex);
 		System.out.printf("%d번 게시물을 삭제했습니다\n", id);
+
 	}
 
 	public int getArticleIndexById(int id) {
@@ -135,4 +174,5 @@ public class ArticleController {
 
 		return null;
 	}
+
 }

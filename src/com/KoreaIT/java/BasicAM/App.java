@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Scanner;
 
 import com.KoreaIT.java.BasicAM.controller.ArticleController;
+import com.KoreaIT.java.BasicAM.controller.Controller;
 import com.KoreaIT.java.BasicAM.controller.MemberController;
 import com.KoreaIT.java.BasicAM.dto.Article;
 import com.KoreaIT.java.BasicAM.dto.Member;
@@ -18,7 +19,6 @@ public class App {
 		articles = new ArrayList<>();
 		members = new ArrayList<>();
 	}
-	static int lastArticleId = 0;
 
 	public void run() {
 		System.out.println("==프로그램 시작==");
@@ -26,13 +26,11 @@ public class App {
 		makeTestData();
 
 		Scanner sc = new Scanner(System.in);
-		
-		MemberController memberController = new MemberController(members,sc);
-		
-		ArticleController articleController = new ArticleController(articles,sc);
+
+		MemberController memberController = new MemberController(members, sc);
+		ArticleController articleController = new ArticleController(articles, sc);
 
 		while (true) {
-
 			System.out.printf("명령어 ) ");
 			String command = sc.nextLine().trim();
 
@@ -45,33 +43,45 @@ public class App {
 				break;
 			}
 
-			if (command.equals("member join")) {
-				memberController.doJoin();
-				
-			} else if (command.equals("article list")) {
-				
-				articleController.bringArticleList();
-				
-			} else if (command.equals("article write")) {
-				
-				articleController.articleWriting();
-				
-			} else if (command.startsWith("article detail ")) {
-				
-				articleController.bringArticleDetail(command);
+			String[] commandBits = command.split(" "); // article detail 1 / member join
 
-			} else if (command.startsWith("article modify ")) {
-				
-				articleController.articleUpdate(command);
-
-			} else if (command.startsWith("article delete ")) {
-				
-				articleController.articleDelete(command);
+			if (commandBits.length == 1) {
+				System.out.println("명령어 확인 후 다시 입력해주세요");
+				continue;
 			}
 
-			else {
-				System.out.println("존재하지 않는 명령어입니다");
+			String controllerName = commandBits[0];
+			String actionMethodName = commandBits[1];
+
+			Controller controller = null;
+
+			if (controllerName.equals("article")) {
+				controller = articleController;
+			} else if (controllerName.equals("member")) {
+				controller = memberController;
+			} else {
+				System.out.println("존재하지 않는 명령어 입니다.");
+				continue;
 			}
+
+			controller.doAction(command, actionMethodName);
+
+//			if (command.equals("member join")) {
+//				memberController.doJoin();
+//			} else if (command.equals("article list")) {
+//				articleController.showList();
+//			} else if (command.equals("article write")) {
+//				articleController.doWrite();
+//			} else if (command.startsWith("article detail ")) {
+//				articleController.showDetail(command);
+//			} else if (command.startsWith("article modify ")) {
+//				articleController.doModify(command);
+//			} else if (command.startsWith("article delete ")) {
+//				articleController.doDelete(command);
+//			}
+//			else {
+//				System.out.println("존재하지 않는 명령어입니다");
+//			}
 
 		}
 
@@ -85,17 +95,15 @@ public class App {
 		System.out.println("테스트를 위한 데이터를 생성합니다.");
 
 		for (int i = 0; i < 3; i++) {
-			int id = lastArticleId + 1;
+			int id = i + 1;
 			String regDate = Util.getNowDateStr();
 			String title = "test title " + (i + 1);
 			String body = "test body " + (i + 1);
-			int hit = i + 1;
+			int hit = i+1;
 
 			Article article = new Article(id, regDate, regDate, title, body, hit);
 			articles.add(article);
-
 			System.out.printf("%d번 글이 생성 되었습니다\n", id);
-			lastArticleId++;
 		}
 	}
 }
