@@ -22,30 +22,34 @@ public class ArticleController extends Controller {
 	public void doAction(String command, String actionMethodName) {
 		this.command = command;
 		this.actionMethodName = actionMethodName;
-		
+
 		switch (actionMethodName) {
 		case "list":
 			showList();
 			break;
-			
+
 		case "detail":
 			showDetail(command);
 			break;
-			
+
 		case "write":
 			doWrite();
 			break;
-			
+
 		case "modify":
 			doModify(command);
 			break;
-			
+
 		case "delete":
 			doDelete(command);
 			break;
-		}	
+
+		default:
+			System.out.println("존재하지 않는 명령어입니다.");
+			break;
+		}
 	}
-	
+
 	public void makeTestData() {
 		System.out.println("테스트를 위한 데이터를 생성합니다.");
 
@@ -54,7 +58,7 @@ public class ArticleController extends Controller {
 			String regDate = Util.getNowDateStr();
 			String title = "test title " + (i + 1);
 			String body = "test body " + (i + 1);
-			int hit = i+1;
+			int hit = i + 1;
 
 			Article article = new Article(id, regDate, regDate, title, body, hit);
 			articles.add(article);
