@@ -60,7 +60,7 @@ public class ArticleController extends Controller {
 			String body = "test body " + (i + 1);
 			int hit = i + 1;
 
-			Article article = new Article(id, regDate, regDate, title, body, hit);
+			Article article = new Article(id, regDate, regDate, loginedMember.id, title, body, hit);
 			articles.add(article);
 			System.out.printf("%d번 글이 생성 되었습니다\n", id);
 		}
@@ -87,6 +87,10 @@ public class ArticleController extends Controller {
 	}
 
 	public void doWrite() {
+		if (isLogined() == false) {
+			System.out.println("로그인 후 이용해 주세요.");
+		}
+
 		int id = articles.size() + 1;
 		String regDate = Util.getNowDateStr();
 		System.out.printf("제목 : ");
@@ -94,7 +98,7 @@ public class ArticleController extends Controller {
 		System.out.printf("내용 : ");
 		String body = sc.nextLine();
 
-		Article article = new Article(id, regDate, regDate, title, body);
+		Article article = new Article(id, regDate, regDate, loginedMember.id, title, body);
 		articles.add(article);
 
 		System.out.printf("%d번 글이 생성 되었습니다\n", id);
@@ -117,6 +121,7 @@ public class ArticleController extends Controller {
 		System.out.printf("번호 : %d\n", foundArticle.id);
 		System.out.printf("작성날짜 : %s\n", foundArticle.regDate);
 		System.out.printf("수정날짜 : %s\n", foundArticle.updateDate);
+		System.out.printf("작성자 : %d\n", foundArticle.memberId);
 		System.out.printf("제목 : %s\n", foundArticle.title);
 		System.out.printf("내용 : %s\n", foundArticle.body);
 		System.out.printf("조회 : %d\n", foundArticle.hit);

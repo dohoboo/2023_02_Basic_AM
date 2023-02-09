@@ -12,8 +12,7 @@ public class MemberController extends Controller {
 	private List<Member> members;
 	private Scanner sc;
 	private String command;
-	private String actionMethodName;
-	private Member loginedMember;
+	private String actionMethodName; 
 
 	public MemberController(Scanner sc) {
 		this.members = new ArrayList<>();
@@ -98,12 +97,7 @@ public class MemberController extends Controller {
 
 	}
 
-	private boolean isLogined() {
-
-		return loginedMember != null;
-	}
-
-	private Member getMemberByLoginId(String loginId) {
+	public Member getMemberByLoginId(String loginId) {
 
 		int index = getMemberIndexByLoginId(loginId);
 
