@@ -24,6 +24,7 @@ public class App {
 		System.out.println("==프로그램 시작==");
 
 		makeTestData();
+		makeMember();
 
 		Scanner sc = new Scanner(System.in);
 
@@ -65,24 +66,6 @@ public class App {
 			}
 
 			controller.doAction(command, actionMethodName);
-
-//			if (command.equals("member join")) {
-//				memberController.doJoin();
-//			} else if (command.equals("article list")) {
-//				articleController.showList();
-//			} else if (command.equals("article write")) {
-//				articleController.doWrite();
-//			} else if (command.startsWith("article detail ")) {
-//				articleController.showDetail(command);
-//			} else if (command.startsWith("article modify ")) {
-//				articleController.doModify(command);
-//			} else if (command.startsWith("article delete ")) {
-//				articleController.doDelete(command);
-//			}
-//			else {
-//				System.out.println("존재하지 않는 명령어입니다");
-//			}
-
 		}
 
 		System.out.println("==프로그램 끝==");
@@ -104,6 +87,22 @@ public class App {
 			Article article = new Article(id, regDate, regDate, title, body, hit);
 			articles.add(article);
 			System.out.printf("%d번 글이 생성 되었습니다\n", id);
+		}
+	}
+	
+	public static void makeMember() {
+		System.out.println("테스트를 위한 회원을 생성합니다.");
+
+		for (int i = 0; i < 3; i++) {
+			int id = i + 1;
+			String regDate = Util.getNowDateStr();
+			String loginId = "test ID " + (i + 1);
+			String loginPw = "test PW " + (i + 1);
+			String name = "test name " + (i + 1);
+
+			Member member = new Member(id, regDate, regDate, loginId, loginPw, name);
+			members.add(member);
+			System.out.printf("%d번 회원이 가입 되었습니다\n", id);
 		}
 	}
 }

@@ -26,32 +26,23 @@ public class ArticleController extends Controller {
 		case "list":
 			showList();
 			break;
-		}
-		
-		switch (actionMethodName) {
+			
 		case "detail":
 			showDetail(command);
 			break;
-		}
-		
-		switch (actionMethodName) {
+			
 		case "write":
 			doWrite();
 			break;
-		}
-		
-		switch (actionMethodName) {
+			
 		case "modify":
 			doModify(command);
 			break;
-		}
-		
-		switch (actionMethodName) {
+			
 		case "delete":
 			doDelete(command);
 			break;
-		}
-		
+		}	
 	}
 
 	public void showList() {
