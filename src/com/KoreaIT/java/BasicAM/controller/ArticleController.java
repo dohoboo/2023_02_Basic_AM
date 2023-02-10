@@ -33,18 +33,10 @@ public class ArticleController extends Controller {
 			break;
 
 		case "write":
-			if (isLogined() == false) {
-				System.out.println("로그인 후 이용해 주세요.");
-				return;
-			}
 			doWrite();
 			break;
 
 		case "modify":
-			if (isLogined() == false) {
-				System.out.println("로그인 후 이용해 주세요.");
-				return;
-			}
 			doModify(command);
 			break;
 
