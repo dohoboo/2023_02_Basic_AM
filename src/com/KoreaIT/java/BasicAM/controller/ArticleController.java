@@ -5,6 +5,7 @@ import java.util.Scanner;
 
 import com.KoreaIT.java.BasicAM.container.Container;
 import com.KoreaIT.java.BasicAM.dto.Article;
+import com.KoreaIT.java.BasicAM.dto.Member;
 import com.KoreaIT.java.BasicAM.util.Util;
 
 public class ArticleController extends Controller {
@@ -54,11 +55,11 @@ public class ArticleController extends Controller {
 		System.out.println("테스트를 위한 데이터를 생성합니다.");
 
 		articles.add(
-				new Article(1, Util.getNowDateStr(), Util.getNowDateStr(), 1, "test1", "제목1", "내용1", 11));
+				new Article(1, Util.getNowDateStr(), Util.getNowDateStr(), 1,  "제목1", "내용1", 11));
 		articles.add(
-				new Article(2, Util.getNowDateStr(), Util.getNowDateStr(), 2, "test2", "제목2", "내용2", 22));
+				new Article(2, Util.getNowDateStr(), Util.getNowDateStr(), 2,  "제목2", "내용2", 22));
 		articles.add(
-				new Article(3, Util.getNowDateStr(), Util.getNowDateStr(), 3, "test3", "제목3", "내용3", 33));
+				new Article(3, Util.getNowDateStr(), Util.getNowDateStr(), 3, "제목3", "내용3", 33));
 	}
 
 	public void showList() {
@@ -68,17 +69,30 @@ public class ArticleController extends Controller {
 		}
 		System.out.println("번호    /      제목     /      이름      /     조회    /     작성자   ");
 		String tempTitle = null;
+		
 		for (int i = articles.size() - 1; i >= 0; i--) {
 			Article article = articles.get(i);
+			
+			String writerName = null;
+			
+			List<Member> members = Container.memberDao.members;
+
+			for (Member member : members) {
+				if (article.memberId == member.id) {
+					writerName = member.name;
+					break;
+				}
+			}
+			
 			if (article.title.length() > 4) {
 				tempTitle = article.title.substring(0, 4);
-				System.out.printf("%4d	/    %6s    /  %6s   /   %4d   /    %6d\n", article.id, tempTitle + "...", article.name, article.hit,
-						article.memberId);
+				System.out.printf("%4d	/    %6s    /   %4d	/    %6s\n", article.id, tempTitle + "...", article.hit,
+						writerName);
 				continue;
 			}
 
-			System.out.printf("%4d	/   %6s   /    %6s    /     %4d     /%6d\n", article.id, article.title, article.name,
-					article.hit, article.memberId);
+			System.out.printf("%4d	/    %6s    /   %4d	/    %6s\n", article.id, article.title, article.hit,
+					writerName);
 		}
 
 	}
@@ -117,7 +131,6 @@ public class ArticleController extends Controller {
 		System.out.printf("수정날짜 : %s\n", foundArticle.updateDate);
 		System.out.printf("작성자 : %d\n", foundArticle.memberId);
 		System.out.printf("제목 : %s\n", foundArticle.title);
-		System.out.printf("제목 : %s\n", foundArticle.name);
 		System.out.printf("내용 : %s\n", foundArticle.body);
 		System.out.printf("조회 : %d\n", foundArticle.hit);
 
